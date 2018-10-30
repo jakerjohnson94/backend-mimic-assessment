@@ -47,16 +47,38 @@ import random
 import sys
 
 
+def file_word_list(file):
+    with open(file, 'r') as file:
+        words_list = file.read().lower().split()
+    return words_list
+
+
 def mimic_dict(filename):
-    """Returns mimic dict mapping each word to list of words which follow it."""
-    # +++your code here+++
-    raise NotImplementedError("Get to Work!")
+    word_list = file_word_list(filename)
+    mimic_dict = dict()
+    mimic_dict[''] = word_list[0]
+    for index, word in enumerate(word_list):
+        if index + 1 < len(word_list):
+            next_word = word_list[index+1]
+        else:
+            break
+        if word not in mimic_dict.keys():
+            mimic_dict[word] = [next_word]
+        else:
+            mimic_dict.get(word).append(next_word)
+
+    return mimic_dict
 
 
 def print_mimic(mimic_dict, word):
-    """Given mimic dict and start word, prints 200 random words."""
-    # +++your code here+++
-    raise NotImplementedError("Get to Work!")
+    result = []
+    i = 1
+    while i < len(mimic_dict):
+        if mimic_dict.get(word) != None:
+            word = random.choice(mimic_dict.get(word))
+            result.append(word)
+        i += 1
+    print ' '.join(result)
 
 
 # Provided main(), calls mimic_dict() and mimic()
