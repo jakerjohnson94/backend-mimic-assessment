@@ -56,28 +56,24 @@ def file_word_list(file):
 def mimic_dict(filename):
     word_list = file_word_list(filename)
     mimic_dict = dict()
-    mimic_dict[''] = word_list[0]
-    for index, word in enumerate(word_list):
-        if index + 1 < len(word_list):
-            next_word = word_list[index+1]
+    previous_word = ''
+    for word in word_list:
+        if previous_word not in mimic_dict.keys():
+            mimic_dict[previous_word] = [word]
         else:
-            break
-        if word not in mimic_dict.keys():
-            mimic_dict[word] = [next_word]
-        else:
-            mimic_dict.get(word).append(next_word)
-
+            mimic_dict.get(previous_word).append(word)
+        previous_word = word
     return mimic_dict
 
 
 def print_mimic(mimic_dict, word):
     result = []
-    i = 1
-    while i < len(mimic_dict):
+
+    for _ in range(200):
         if mimic_dict.get(word) != None:
             word = random.choice(mimic_dict.get(word))
             result.append(word)
-        i += 1
+
     print ' '.join(result)
 
 
